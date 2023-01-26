@@ -13,47 +13,27 @@ import java.util.Map;
 import com.coderscampus.application.AbbreviatedMonths;
 
 public class FileService {
-	static String[] files = { 
-			"model3.csv", 
-			"modelS.csv", 
-			"modelX.csv" 
-	};
+
+	 List<String> sales = new ArrayList<>();
 	
-	static List<String> sales = new ArrayList<>();
-	
-	public static List<String> readFiles() {
-		
-		//lets do only one file first
-		openFile("model3.csv");
-		return sales;
-		
-		//for(int i = 0; i < files.length; i++)
-		//		createFileReader(files[i]);
+	public List<String> readFiles(String file) {
+		openFile(file);
+		return sales;	
 	}
 	
-	public static void openFile(String file) {
-		//Map<Integer, Integer> salesForModel3 = new HashMap<>();
-		//String[] stuff = {"Jul-17", "500"};
+	public void openFile(String file) {
 		try (FileReader fr = new FileReader(file); BufferedReader br = new BufferedReader(fr)) {
 			String line;
 			boolean flag = false;
 			while(!((line = br.readLine()) == null)) {
 				if (flag) {
-					sales.add(line);
-					
-					//String[] data = line.split(","); 
-					//YearMonth ym = createYearMonth(stuff);
-					//System.out.println(ym);
-					
-				}
-				else
+					sales.add(line);	
+				} else
 					flag = true;
-			}
-			
+			}	
 		} catch(IOException e) {
 			e.getMessage();
 		}
-		//printListContents();
 	}
 
 	public static YearMonth createYearMonth(String[] data) {
@@ -62,12 +42,4 @@ public class FileService {
 		YearMonth yearMonth = YearMonth.of(year+2000, Month.valueOf(abbMonth));
 		return yearMonth;
 	}
-	
-	
-	
-	public static void printListContents() {
-		sales.stream()
-			 .forEach(x -> System.out.println(x));
-	}
-	
 }
